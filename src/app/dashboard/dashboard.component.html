@@ -1,3 +1,19 @@
-<p>
-  dashboard works!
-</p>
+<div class ="row">
+  <div class="col-md-5">
+   
+  </div>
+
+  <div class="col-md-7">
+    <table class ="table table-sm">
+      <thead>
+        <th> Full Name </th>
+      </thead>
+      <ng-container *ngFor="let fullName of fullNames">
+        <tr class ="table-dark">
+          <td>{{fullName}}</td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+
+</div>
