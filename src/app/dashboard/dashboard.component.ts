@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   showSuccessMessage : boolean;
   submitted : boolean;
   myForm : FormGroup;
+  searchText : string ="";
 
   constructor(private service: DashboardService) {
     this.searches = [];
@@ -21,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
 /*
   searchHistory() {
-    this.dashboardService.getSearchHistory().subscribe( (history: any) => {
+    this.service.getSearchHistory().subscribe( (history: any) => {
       this.searches = history;
     });
   }
@@ -45,6 +46,21 @@ export class DashboardComponent implements OnInit {
     return this.myForm.controls;
   }
 
+  saveSearch(){
+    this.service.setSearchHistory(this.searchText);
+    this.searchText='';
+  }
+
+  firstName : String;
+  lastName : String;
+
+  filterCondition (fullName){
+    this.firstName = fullName.firstName;
+    this.lastName = fullName.lastName;
+    return this.firstName.toLowerCase().indexOf(this.searchText.toLowerCase()) != -1 || this.lastName.toLowerCase().indexOf(this.searchText.toLowerCase()) != -1;
+  }
+
+
 
   ngOnInit() {
     this.myForm = new FormGroup({
@@ -59,5 +75,6 @@ export class DashboardComponent implements OnInit {
     //this.service.getLastName().subscribe((lastName : any) => this.lastNames = lastName);
     //this.createFullName();
   }
+
 
 }

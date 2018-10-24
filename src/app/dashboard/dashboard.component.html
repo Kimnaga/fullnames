@@ -29,12 +29,16 @@
   </div>
 
   <div class="col-md-7">
+      <form class="form-inline">
+          <input class="form-control" name="search" placeholder="Search" [(ngModel)]="searchText" style="width:80%;">
+          <button (click) ="saveSearch()" class="btn btn-info">Save Search</button>
+        </form>
     <table class ="table table-sm">
       <thead>
         <th> Full Name From Firebase</th>
       </thead>
       <ng-container *ngFor="let fullName of fullNames | async">
-        <tr class ="table-dark">
+        <tr class ="table-dark" *ngIf= "filterCondition(fullName)">
           <td>{{fullName.firstName}} {{fullName.lastName}}</td>
         </tr>
       </ng-container>

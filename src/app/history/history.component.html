@@ -1,3 +1,12 @@
-<p>
-  history works!
-</p>
+<table class ="table table-sm">
+      <thead>
+        <th>Search Text</th>
+        <th>Date </th>
+      </thead>
+      <ng-container *ngFor="let search of searches | async">
+        <tr class ="table-dark">
+          <td>{{search.searchText}}</td>
+          <td>{{search.time}}</td>
+        </tr>
+      </ng-container>
+</table>

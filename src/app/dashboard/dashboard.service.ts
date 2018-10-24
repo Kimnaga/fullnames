@@ -11,11 +11,19 @@ export class DashboardService {
     private loginService: LoginService,
     private db: AngularFireDatabase,
     ) {
-    //this.searchHistoryRef = this.db.list(`currentSession/${this.loginService.userUid}/searches`);
+    this.searchHistoryRef = this.db.list(`currentSession/${this.loginService.userUid}/searches`);
   }
 
   getSearchHistory() {
     return this.searchHistoryRef.valueChanges();
+  }
+
+  setSearchHistory(text){
+    var timeStamp = new Date().toDateString();
+    this.searchHistoryRef.push({
+      searchText : text,
+      time : timeStamp
+    })
   }
 
   getNames (){
