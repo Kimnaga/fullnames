@@ -8,9 +8,9 @@ import { HistoryComponent } from './history/history.component';
 
 import { environment } from '../environments/environment';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { LoginService } from './login/login.service';

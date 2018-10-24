@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoginService } from '../login/login.service';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase } from 'angularfire2/database';
+
 
 
 @Injectable()
@@ -17,15 +18,14 @@ export class DashboardService {
     return this.searchHistoryRef.valueChanges();
   }
 
-  getFirstName(){
-    return this.db.list('names/first-names').valueChanges();
-  }
-
-  getLastName(){
-    return this.db.list('names/last-names').valueChanges();
+  getNames (){
+    return this.db.list('names').valueChanges();
   }
 
   insert(fullnames){
-    //this.db.push('names/first-names')
+    this.db.list('/names').push({
+      firstName : fullnames.firstName,
+      lastName : fullnames.lastName
+    })
   }
 }

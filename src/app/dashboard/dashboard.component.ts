@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,24 +10,14 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class DashboardComponent implements OnInit {
   searches: any[];
-  firstNames : any[];
-  lastNames : any[];
-  fullNames : any[];
+  fullNames : Observable<any[]>;
   showSuccessMessage : boolean;
+  submitted : boolean;
+  myForm : FormGroup;
+
   constructor(private service: DashboardService) {
     this.searches = [];
-    this.firstNames =[];
-    this.lastNames =[];
-    this.fullNames=[];
-    this.fullNames.push("test subject");
   }
-
-  form = new FormGroup ({
-    firstName : new FormControl(''),
-    lastName : new FormControl ('')
-  })
-
-
 
 /*
   searchHistory() {
@@ -38,26 +29,35 @@ export class DashboardComponent implements OnInit {
 
   onSubmit(){
     //insert operation
-    this.service.insert(this.form.value);
-    this.showSuccessMessage= true;
-    setTimeout(() => {
-      this.showSuccessMessage=false,3000 
-    });
-  }
-  
-  len : any = 0;
-  index : any=0;
-  createFullName(){
-    this.len  = this.firstNames.length;
-    console.log("length "+this.len);
-    this.fullNames.push (this.firstNames[this.index] +" "+ this.lastNames[this.index]);
+    this.submitted = true;
+    if (this.myForm.valid){
+      this.service.insert(this.myForm.value);
+      this.showSuccessMessage= true;
+      setTimeout(() => {
+        this.showSuccessMessage=false,3000 
+      });
+      this.submitted = false;
+    }
+    this.myForm.reset();
   }
 
+  get f () {
+    return this.myForm.controls;
+  }
+
+
   ngOnInit() {
-    this.service.getFirstName().subscribe((firstName :any) => {
-      this.firstNames = firstName});
-    this.service.getLastName().subscribe((lastName : any) => this.lastNames = lastName);
-    this.createFullName();
+    this.myForm = new FormGroup({
+      $key : new FormControl(null),
+      firstName: new FormControl('', Validators.required),
+      lastName:new FormControl('', Validators.required),
+    });
+    this.fullNames = this.service.getNames();
+    
+    //this.service.getFirstName().subscribe((firstName :any) => {
+     // this.firstNames = firstName});
+    //this.service.getLastName().subscribe((lastName : any) => this.lastNames = lastName);
+    //this.createFullName();
   }
 
 }

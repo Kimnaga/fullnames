@@ -1,16 +1,41 @@
 <div class ="row">
   <div class="col-md-5">
-   
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <h4>Insert To Firebase</h4>
+      <input type="hidden" formControlName ="$key">
+      <div class="form-group">
+        <label>First Name</label>
+        <input formControlName="firstName" class="form-control" [ngClass]="{'is-invalid':submitted && f.firstName.errors}">
+        <div class="invalid-feedback" *ngIf="submitted && f.firstName.errors">
+          This field is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+          <label>Last Name</label>
+          <input formControlName="lastName" class="form-control" [ngClass]="{'is-invalid':submitted && f.lastName.errors}">
+          <div class="invalid-feedback" *ngIf="submitted && f.lastName.errors">
+              This field is required.
+          </div>
+      </div>
+ 
+      <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Submit">
+      </div>
+    </form>
+    <div class="alert alert-info" *ngIf="showSuccessMessage">
+      Submitted successfully
+    </div>
   </div>
 
   <div class="col-md-7">
     <table class ="table table-sm">
       <thead>
-        <th> Full Name </th>
+        <th> Full Name From Firebase</th>
       </thead>
-      <ng-container *ngFor="let fullName of fullNames">
+      <ng-container *ngFor="let fullName of fullNames | async">
         <tr class ="table-dark">
-          <td>{{fullName}}</td>
+          <td>{{fullName.firstName}} {{fullName.lastName}}</td>
         </tr>
       </ng-container>
     </table>
